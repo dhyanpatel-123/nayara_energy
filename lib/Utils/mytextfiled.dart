@@ -12,6 +12,7 @@ class myCustomTextfield extends StatelessWidget {
   final bool isObscure;
   final bool alwaysBoarder;
   final List<String>? autofillHints;
+  final TextInputType? keyboardType; // ✅ nullable keyboardType
 
 
    myCustomTextfield({super.key,
@@ -21,6 +22,7 @@ class myCustomTextfield extends StatelessWidget {
      this.onChanged,
      this.iconn,
      this.isObscure = false,
+     this.keyboardType,
      this.autofillHints,
      this.alwaysBoarder = false
 
@@ -28,47 +30,51 @@ class myCustomTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      style:  TextStyle(
-          color: AppColors.navyblue, fontWeight: FontWeight.w600),
-      autofillHints: autofillHints,
-      controller: textEditingController,
-      obscureText: isObscure,
-      onChanged: onChanged,
-      validator: validator,
-      decoration: InputDecoration(
-          errorStyle:  TextStyle(color: AppColors.navyblue),
+    return Container(
+      height: 50,
+      child: TextFormField(
+        keyboardType:keyboardType,
+        style:  TextStyle(
+            color: AppColors.navyblue, fontWeight: FontWeight.w600),
+        autofillHints: autofillHints,
+        controller: textEditingController,
+        obscureText: isObscure,
+        onChanged: onChanged,
+        validator: validator,
+        decoration: InputDecoration(
+            errorStyle:  TextStyle(color: AppColors.navyblue),
 
-          hintStyle:
-           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-          hintText: hinttext,
-          fillColor: Colors.white,
-          filled: true,
-          // prefixIcon: Icon(
-          //   iconn,
-          //   color: Colors.grey,
-          // ),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none),
-          enabledBorder: alwaysBoarder?OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide:  BorderSide(color: AppColors.navyblue)):OutlineInputBorder(
+            hintStyle:
+             TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+            hintText: hinttext,
+            fillColor: Colors.white,
+            filled: true,
+            // prefixIcon: Icon(
+            //   iconn,
+            //   color: Colors.grey,
+            // ),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none),
+            enabledBorder: alwaysBoarder?OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide:  BorderSide(color: AppColors.navyblue)):OutlineInputBorder(
 
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: AppColors.navyblue)),
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide:  BorderSide(color: AppColors.navyblue)),
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide:  BorderSide(color: AppColors.navyblue)),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none)),
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: AppColors.navyblue)),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide:  BorderSide(color: AppColors.navyblue)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide:  BorderSide(color: AppColors.navyblue)),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none)),
+      ),
     );
   }
 }

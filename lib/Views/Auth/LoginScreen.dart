@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nayara_energy_app/Controller/authController.dart';
 import 'package:nayara_energy_app/Utils/myButton.dart';
 import 'package:nayara_energy_app/Utils/myDecorations.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
@@ -10,13 +11,11 @@ import 'package:get/get.dart';
 class Loginscreen extends StatelessWidget {
   Loginscreen({super.key});
 
-  // AuthController au = Get.find<AuthController>();
+  AuthController au = Get.find<AuthController>();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController EmailController = TextEditingController();
-    TextEditingController PasswordController = TextEditingController();
 
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -35,16 +34,19 @@ class Loginscreen extends StatelessWidget {
                 const DataText(text: 'Please Fill that detail for login', fontSize: 15),
                 const SizedBox(height: 20),
                 myCustomTextfield(
-                  autofillHints: [AutofillHints.email],
-                  validator: (val) {},
-                  textEditingController: EmailController,
-                  hinttext: 'Email',
+
+                  autofillHints: [AutofillHints.telephoneNumber],
+                  validator: (val) {
+
+                  },
+                  textEditingController: au.MobileNumberController,
+                  hinttext: 'Mobile Number',
                 ),
                 const SizedBox(height: 20),
                 myCustomTextfield(
                   autofillHints: [AutofillHints.password],
                   validator: (val) {},
-                  textEditingController: PasswordController,
+                  textEditingController: au.PasswordController,
                   hinttext: 'Password',
                 ),
                 const SizedBox(height: 10),
@@ -55,8 +57,10 @@ class Loginscreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
 
-              myButton(onTap: (){
-               Get.to(()=>Signupscreen());
+              myButton(onTap: () async{
+
+              await au.login();
+
               }, title: "Log In"),
 
                 const SizedBox(height: 10),
@@ -64,12 +68,9 @@ class Loginscreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DataText(text: "Don't have account?", fontSize: 15),
-                    InkWell(
-                      onTap: () {
-
-                      },
-                      child: DataText(text: "Sign up", fontSize: 15, color: Colors.grey),
-                    ),
+                    GestureDetector(onTap:(){
+                      Get.to(()=>Signupscreen());
+                    },child: DataText(text: "Sign up", fontSize: 15, color: Colors.grey)),
                   ],
                 ),
               ],

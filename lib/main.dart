@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nayara_energy_app/Controller/SplashController.dart';
+import 'package:nayara_energy_app/SplashScreen/splashscreen.dart';
 import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
 import 'package:get/get.dart';
 
 void main() {
+  Get.put(SplshContoller());
   runApp(const MyApp());
 }
 
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Loginscreen(),
+      home: SplashScreen(),
     );
   }
 }

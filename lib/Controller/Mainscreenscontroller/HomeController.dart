@@ -16,6 +16,35 @@ class HomeController extends GetxController {
     }
   }
 
+  DateTime? selectedDateFrom;
+  Future<void> pickDateFrom(BuildContext context) async {
+    final pickedFrom = await showDatePicker(
+      context: context,
+      initialDate: selectedDateFrom ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedFrom != null) {
+      selectedDateFrom = pickedFrom;
+      update(); // refresh UI
+    }
+  }
+
+  DateTime? selectedDateTo;
+  Future<void> pickDateTo(BuildContext context) async {
+    final pickedTo = await showDatePicker(
+      context: context,
+      initialDate: selectedDateTo ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (pickedTo != null) {
+      selectedDateTo = pickedTo;
+      update(); // refresh UI
+    }
+  }
+
+
   /////////////////////////////////////////////////
                    //charts
   double petrolStock = 202.0;
@@ -39,5 +68,13 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     // You can set initial values here if needed
+  }
+}
+
+class HomeScreenBinding extends Bindings {
+  @override
+  void dependencies() {
+    // TODO: implement dependencies
+    Get.lazyPut(() => HomeController(), fenix: true);
   }
 }

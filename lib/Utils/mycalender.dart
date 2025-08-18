@@ -15,7 +15,7 @@ class MyCustomDatePicker extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (da){
         final displayDate = date.selectedDate ?? DateTime.now();
-        final formattedDate = DateFormat('EEE - dd').format(displayDate);
+        final formattedDate = DateFormat('EEE dd').format(displayDate);
 
         return InkWell(
           onTap: (){
