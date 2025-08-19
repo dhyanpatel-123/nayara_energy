@@ -11,12 +11,14 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
-      body: Image.asset(
+      body: Center(
+        child: Image.asset(
 
-        splashImage,
-        fit: BoxFit.fill,
-        height: 600,
-        width: mySize.width,
+          splashImage,
+          fit: BoxFit.fill,
+          height: mySize.height*.6,
+          width: mySize.width,
+        ),
       ),
     );
   }

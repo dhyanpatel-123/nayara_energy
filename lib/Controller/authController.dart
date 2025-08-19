@@ -13,11 +13,11 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  TextEditingController MobileNumberController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();
   TextEditingController PasswordController = TextEditingController();
 
   clearLoginFields() {
-    MobileNumberController.clear();
+    EmailController.clear();
     PasswordController.clear();
   }
 
@@ -29,7 +29,7 @@ class AuthController extends GetxController {
       var response = await http.post(
         Uri.parse(MyApis.login),
         body: {
-          'mobilenumber': MobileNumberController.text,
+          'mobilenumber': EmailController.text,
           'password': PasswordController.text,
         },
       );

@@ -16,7 +16,6 @@ class Loginscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Container(
@@ -25,55 +24,80 @@ class Loginscreen extends StatelessWidget {
         height: mySize.height,
         child: SingleChildScrollView(
           child: AutofillGroup(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                myDecorations.logoimageScreen(context),
-                SizedBox(height: 40),
-                const DataText(text: 'Log In', fontSize: 29, color: AppColors.navyblue, fontWeight: FontWeight.w800),
-                const DataText(text: 'Please Fill that detail for login', fontSize: 15),
-                const SizedBox(height: 20),
-                myCustomTextfield(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  myDecorations.logoimageScreen(context),
+                  SizedBox(height: 40),
+                  const DataText(text: 'Log In', fontSize: 29, color: AppColors.navyblue, fontWeight: FontWeight.w800),
+                  const DataText(text: 'Please Fill that detail for login', fontSize: 15),
+                  const SizedBox(height: 20),
+                  myCustomTextfield(iconn: Email,
 
-                  autofillHints: [AutofillHints.telephoneNumber],
-                  validator: (val) {
+                    autofillHints: [AutofillHints.email],
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      if (!GetUtils.isEmail(val)) {
+                        return 'Enter Valid Email';
+                      }
 
-                  },
-                  textEditingController: au.MobileNumberController,
-                  hinttext: 'Mobile Number',
-                ),
-                const SizedBox(height: 20),
-                myCustomTextfield(
-                  autofillHints: [AutofillHints.password],
-                  validator: (val) {},
-                  textEditingController: au.PasswordController,
-                  hinttext: 'Password',
-                ),
-                const SizedBox(height: 10),
+                      return null;
+                    },
+                    textEditingController: au.EmailController,
+                    hinttext: 'Email',
+                  ),
+                  const SizedBox(height: 20),
+                  myCustomTextfield(
+                    autofillHints: [AutofillHints.password],
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    textEditingController: au.PasswordController,
+                    hinttext: 'Password',
+                    isObscure: true,
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [const DataText(text: 'Forgot Password?', fontSize: 15)],
-                ),
-                const SizedBox(height: 10),
+                  ),
+                  const SizedBox(height: 10),
 
-              myButton(onTap: () async{
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [const DataText(text: 'Forgot Password?', fontSize: 15)],
+                  ),
+                  const SizedBox(height: 10),
 
-              await au.login();
+                  myButton(
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await au.login();
+                      }
+                    },
+                    title: "Log In",
+                  ),
 
-              }, title: "Log In"),
-
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DataText(text: "Don't have account?", fontSize: 15),
-                    GestureDetector(onTap:(){
-                      Get.to(()=>Signupscreen());
-                    },child: DataText(text: "Sign up", fontSize: 15, color: Colors.grey)),
-                  ],
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DataText(text: "Don't have account?", fontSize: 15),
+                      SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => Signupscreen());
+                        },
+                        child: DataText(text: "Sign up", fontSize: 15, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
             ),
           ),
         ),

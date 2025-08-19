@@ -6,11 +6,13 @@ import 'package:nayara_energy_app/Utils/myDecorations.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
 import 'package:nayara_energy_app/Utils/mytextfiled.dart';
 import 'package:get/get.dart';
+import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
 import 'package:nayara_energy_app/Views/BottomNavigation_Screens/Mainscreens.dart';
 
 class Signupscreen extends StatelessWidget {
    Signupscreen({super.key});
   AuthController au = Get.find<AuthController>();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +22,14 @@ class Signupscreen extends StatelessWidget {
 
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(top: mySize.height / 200, left: 20, right: 20),
-          width: mySize.width,
-          height: mySize.height,
-          child: SingleChildScrollView(
-            child: AutofillGroup(
+      body: Container(
+        padding: EdgeInsets.only(top: mySize.height / 100, left: 20, right: 20),
+        width: mySize.width,
+        height: mySize.height,
+        child: SingleChildScrollView(
+          child: AutofillGroup(
+            child: Form(
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -40,7 +43,19 @@ class Signupscreen extends StatelessWidget {
 
                   myCustomTextfield(
                     autofillHints: [AutofillHints.name],
-                    validator: (val) {},
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      if (!GetUtils.isEmail(val)) {
+                        return 'Enter Valid Email';
+                      }
+                      return null;
+
+
+
+
+                    },
                     textEditingController: au.SignupFirstName,
                     hinttext: 'FirstName',
                   ),
@@ -111,15 +126,19 @@ class Signupscreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DataText(text: "Don't have account?", fontSize: 15),
+                      SizedBox(width: 5,),
                       InkWell(
                         onTap: () {
+
+
+                          Get.to(()=>Loginscreen());
 
                         },
                         child: DataText(text: "Log In", fontSize: 15, color: Colors.grey),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

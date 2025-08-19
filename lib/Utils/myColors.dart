@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 class myColor{
+  static const errorcolor=Color(0xFFB00020);
 
 
 }
