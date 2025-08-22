@@ -91,7 +91,7 @@ class RefillScreen extends StatelessWidget {
                                               mySmallButton(
                                                 title: "Submit",
                                                 onTap: () {
-                                                  Get.to(Dateentrydetailscreen());
+                                                  Get.to(Dailyentrydetailscreen());
                                                 },
                                               ),
                                             ],

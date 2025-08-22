@@ -3,7 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 import 'package:nayara_energy_app/Utils/myToast.dart';
+import 'package:nayara_energy_app/Utils/myshared.dart';
+import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
+import 'package:nayara_energy_app/Views/BottomNavigation_Screens/Mainscreens.dart';
+import 'package:nayara_energy_app/Views/HomePages/HomeScreen.dart';
 import 'package:nayara_energy_app/myApis/Myapis.dart';
 
 class AuthController extends GetxController {
@@ -13,11 +18,11 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  TextEditingController EmailController = TextEditingController();
+  TextEditingController MobilenumberController = TextEditingController();
   TextEditingController PasswordController = TextEditingController();
 
   clearLoginFields() {
-    EmailController.clear();
+    MobilenumberController.clear();
     PasswordController.clear();
   }
 
@@ -29,16 +34,18 @@ class AuthController extends GetxController {
       var response = await http.post(
         Uri.parse(MyApis.login),
         body: {
-          'mobilenumber': EmailController.text,
+          'mobilenumber': MobilenumberController.text,
           'password': PasswordController.text,
         },
       );
       final jsonData = jsonDecode(response.body);
       if (response.statusCode == 200) {
         print("hello");
-       
+
+
         MyToast.showCustom("Logged In");
-        clearLoginFields();
+        await LoginSuccess(jsonData);
+
       } else {
         MyToast.showCustom("Logged Failed");
 
@@ -51,17 +58,25 @@ class AuthController extends GetxController {
     }
   }
 
+
+  LoginSuccess(jsonData) async {
+
+    await mySharedPref().setData(
+        jsonData['token']);
+    Get.offAll(()=>Mainscreens(),binding:HomeScreenBinding());
+    clearLoginFields();
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////SignUp
   TextEditingController SignupFirstName = TextEditingController();
   TextEditingController SignupLastName = TextEditingController();
   TextEditingController SignupEmail = TextEditingController();
   TextEditingController SignupMobileNumber = TextEditingController();
-  TextEditingController SignupMobileAddress = TextEditingController();
   TextEditingController SignupPassword = TextEditingController();
   TextEditingController SignupConfirmPassword = TextEditingController();
 
-  SignUp() async {
+ Future<bool>SignUp() async {
     try {
 
       var response = await http.post(
@@ -74,26 +89,42 @@ class AuthController extends GetxController {
           "password": SignupPassword.text,
         },
       );
+      final jsonData = jsonDecode(response.body);
+      print("responsbody:${response.body}");
       if (response.statusCode == 200) {
-        MyToast.showCustom("Logged In");
-        ClearSignUpfields();
+
+        MyToast.showCustom("Sign UP");
+        await SignUpSuccess(jsonData);
+        return true;
       } else {
-        MyToast.showCustom("Logged Failed");
+        MyToast.showCustom("Sign UP Failed");
+        return false;
       }
     } catch (e) {
+      print(e.toString());
       MyToast.showCustom("Something went Wrong");
+      return false;
     } finally {
 
       update();
     }
   }
 
+  SignUpSuccess(jsonData) async {
+
+    await mySharedPref().setData(
+        jsonData['token']);
+    Get.offAll(()=>Loginscreen(),binding:AuthBinding());
+    clearLoginFields();
+  }
+
+
+
   ClearSignUpfields() {
     SignupFirstName.clear();
     SignupLastName.clear();
     SignupEmail.clear();
     SignupMobileNumber.clear();
-    SignupMobileAddress.clear();
     SignupPassword.clear();
     SignupConfirmPassword.clear();
   }

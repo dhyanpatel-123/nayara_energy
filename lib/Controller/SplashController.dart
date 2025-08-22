@@ -4,6 +4,7 @@ import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeControlle
 import 'package:nayara_energy_app/Controller/authController.dart';
 import 'package:nayara_energy_app/Utils/myshared.dart';
 import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
+import 'package:nayara_energy_app/Views/BottomNavigation_Screens/Mainscreens.dart';
 import 'package:nayara_energy_app/Views/HomePages/HomeScreen.dart';
 
 class SplshContoller extends GetxController{
@@ -17,7 +18,7 @@ class SplshContoller extends GetxController{
     const Duration(seconds: 2),
       ()async{
       var token = await mySharedPref().getData("token");
-      print(token);
+      print("token:${token}");
       if(token==null){
         Get.offAll(()=>Loginscreen(),
           binding: AuthBinding(),
@@ -25,7 +26,7 @@ class SplshContoller extends GetxController{
             curve: Curves.linear
         );
       }else{
-        Get.offAll(()=>HomeScreen(),
+        Get.offAll(()=>Mainscreens(),
           binding: HomeScreenBinding(),
             duration: const Duration(milliseconds: 500),
             curve: Curves.linear

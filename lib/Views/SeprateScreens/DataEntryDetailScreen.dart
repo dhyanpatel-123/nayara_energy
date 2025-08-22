@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:nayara_energy_app/Utils/mycustomappbar.dart';
 
-class Dateentrydetailscreen extends StatelessWidget {
-  const Dateentrydetailscreen({super.key});
+class Dailyentrydetailscreen extends StatelessWidget {
+  const Dailyentrydetailscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
 
     final List<Map<String, String>> data = [
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"2","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"3","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"4","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
 
 
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-      {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
+      {"No":"1","tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
 
     ];
 
@@ -61,6 +61,7 @@ class Dateentrydetailscreen extends StatelessWidget {
                           dataRowHeight: 40, // Adjust row height
                           // headingRowColor: MaterialStateProperty.all(Colors.grey[200]),
                           columns: const [
+                            DataColumn(label: Text("No.", style: TextStyle(fontWeight: FontWeight.bold))),
                             DataColumn(label: Text("Tank Name", style: TextStyle(fontWeight: FontWeight.bold))),
                             DataColumn(label: Text("Fuel Type", style: TextStyle(fontWeight: FontWeight.bold))),
                             DataColumn(label: Text("Quantity", style: TextStyle(fontWeight: FontWeight.bold))),
@@ -69,6 +70,7 @@ class Dateentrydetailscreen extends StatelessWidget {
                           ],
                           rows: data.map((row) {
                             return DataRow(cells: [
+                              DataCell(Text(row["No"]!)),
                               DataCell(Text(row["tank"]!)),
                               DataCell(Text(row["fuel"]!)),
                               DataCell(Text(row["quantity"]!)),

@@ -19,5 +19,7 @@ class mySharedPref {
 
   clearData() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
+    await sp.clear();
+    print("clear");
   }
 }

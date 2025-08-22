@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nayara_energy_app/Controller/authController.dart';
 import 'package:nayara_energy_app/Utils/myButton.dart';
 import 'package:nayara_energy_app/Utils/myDecorations.dart';
@@ -34,29 +35,40 @@ class Loginscreen extends StatelessWidget {
                   const DataText(text: 'Log In', fontSize: 29, color: AppColors.navyblue, fontWeight: FontWeight.w800),
                   const DataText(text: 'Please Fill that detail for login', fontSize: 15),
                   const SizedBox(height: 20),
-                  myCustomTextfield(iconn: Email,
+                  myCustomTextfield(
 
-                    autofillHints: [AutofillHints.email],
+                    iconn: FontAwesomeIcons.circleUser,
+
+                    autofillHints: [AutofillHints.telephoneNumber],
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'This field is required';
                       }
-                      if (!GetUtils.isEmail(val)) {
-                        return 'Enter Valid Email';
+                      if (!GetUtils.isPhoneNumber(val)) {
+                        return 'Enter Valid Number';
+                      }
+                      if (val.length != 10) {   // optional: only 10-digit numbers
+                        return 'Mobile number must be 10 digits';
                       }
 
                       return null;
                     },
-                    textEditingController: au.EmailController,
-                    hinttext: 'Email',
+                    textEditingController: au.MobilenumberController,
+                    hinttext: 'MobileNumber',
                   ),
                   const SizedBox(height: 20),
                   myCustomTextfield(
+                    iconn: Icons.lock_outline_rounded,
                     autofillHints: [AutofillHints.password],
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'This field is required';
                       }
+
+                      if (val.length < 6 || val.length>13) {   // optional: only 10-digit numbers
+                        return  'Password must be 6 to 13 characters';
+                      }
+
                       return null;
                     },
                     textEditingController: au.PasswordController,

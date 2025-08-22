@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      builder: (context, child) => SafeArea(child: child!), // ✅ Global SafeArea
+
       home: SplashScreen(),
     );
   }

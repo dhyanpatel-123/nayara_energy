@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: mySize.height / 14, left: 20, right: 20),
+        padding: EdgeInsets.only(top:60, left: 20, right: 20,),
         width: mySize.width,
         height: mySize.height,
         child: SingleChildScrollView(

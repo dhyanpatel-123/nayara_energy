@@ -5,6 +5,8 @@ import 'package:nayara_energy_app/Utils/myButton.dart';
 import 'package:nayara_energy_app/Utils/myColors.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
 import 'package:nayara_energy_app/Utils/mytextfiled.dart';
+import 'package:nayara_energy_app/Views/HomePages/DailyEntryScreen.dart';
+import 'package:nayara_energy_app/Views/SeprateScreens/DataEntryDetailScreen.dart';
 
 void showAleartAddDailyEntry({required String title, required TextEditingController controller}) {
   showDialog(
@@ -27,7 +29,9 @@ void showAleartAddDailyEntry({required String title, required TextEditingControl
                   Get.back();
                 },
               ),
-              mySmallButton(title: "Submit", onTap: () {}),
+              mySmallButton(title: "Submit", onTap: () {
+                Get.to(()=>Dailyentrydetailscreen());
+              }),
             ],
           ),
         ],

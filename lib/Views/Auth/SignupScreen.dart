@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nayara_energy_app/Controller/authController.dart';
 import 'package:nayara_energy_app/Utils/myButton.dart';
 import 'package:nayara_energy_app/Utils/myColors.dart';
@@ -23,7 +24,7 @@ class Signupscreen extends StatelessWidget {
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: mySize.height / 100, left: 20, right: 20),
+        padding: EdgeInsets.only(top: 60, left: 20, right: 20),
         width: mySize.width,
         height: mySize.height,
         child: SingleChildScrollView(
@@ -34,7 +35,7 @@ class Signupscreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-                  myDecorations.logoimageScreen(context),
+
                   // SizedBox(height: 40,),
                   const DataText(text: 'Sign up', fontSize: 29, color: AppColors.navyblue, fontWeight: FontWeight.w800),
                   const DataText(text: 'Please Fill that detail for login', fontSize: 15),
@@ -42,13 +43,11 @@ class Signupscreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   myCustomTextfield(
+                    iconn: FontAwesomeIcons.circleUser,
                     autofillHints: [AutofillHints.name],
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'This field is required';
-                      }
-                      if (!GetUtils.isEmail(val)) {
-                        return 'Enter Valid Email';
                       }
                       return null;
 
@@ -61,8 +60,13 @@ class Signupscreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   myCustomTextfield(
+                    iconn: FontAwesomeIcons.circleUser,
                     autofillHints: [AutofillHints.middleName],
                     validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
 
                     },
                     textEditingController: au.SignupLastName,
@@ -70,38 +74,84 @@ class Signupscreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   myCustomTextfield(
+                    iconn: Icons.email,
                     autofillHints: [AutofillHints.email],
-                    validator: (val) {},
+                    validator: (val) {
+
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      if (!GetUtils.isEmail(val)) {
+                        return 'Enter Valid Number';
+                      }
+
+
+                      return null;
+                    },
                     textEditingController: au.SignupEmail,
                     hinttext: 'Email',
                   ),
                   const SizedBox(height: 10),
 
                   myCustomTextfield(
+                    iconn: FontAwesomeIcons.phone,
                     autofillHints: [AutofillHints.telephoneNumber],
-                    validator: (val) {},
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      if (!GetUtils.isPhoneNumber(val)) {
+                        return 'Enter Valid Number';
+                      }
+                      if (val.length != 10) {   // optional: only 10-digit numbers
+                        return 'Mobile number must be 10 digits';
+                      }
+
+                      return null;
+                    },
                     textEditingController: au.SignupMobileNumber,
                     hinttext: 'Mobile Number',
                   ),
                   const SizedBox(height: 10),
-                  myCustomTextfield(
-                    autofillHints: [AutofillHints.addressCity],
-                    validator: (val) {},
-                    textEditingController: au.SignupMobileAddress,
-                    hinttext: 'Address',
-                  ),
-                  const SizedBox(height: 10),
+
 
                   myCustomTextfield(
+                    iconn: Icons.lock_outline_rounded,
                     autofillHints: [AutofillHints.password],
-                    validator: (val) {},
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+
+                      if (val.length < 6 || val.length>13) {   // optional: only 10-digit numbers
+                        return  'Password must be 6 to 13 characters';
+                      }
+
+
+                      return null;
+
+                    },
                     textEditingController: au.PasswordController,
                     hinttext: 'Password',
                   ),
                   const SizedBox(height: 10),
                   myCustomTextfield(
+                    iconn: Icons.lock_outline_rounded,
                     autofillHints: [AutofillHints.password],
-                    validator: (val) {},
+                    validator: (val) {
+                      if (val!.isEmpty) {
+                        return 'This field is required';
+                      }
+                      if (val != au.PasswordController.text) {
+                        return 'Passwords do not match';
+                      }
+
+                      if (val.length < 6 || val.length>13) {   // optional: only 10-digit numbers
+                        return  'Password must be 6 to 13 characters';
+                      }
+
+                      return null;
+                    },
                     textEditingController: au.SignupConfirmPassword,
                     hinttext: 'Confirm Password',
                   ),
@@ -115,10 +165,14 @@ class Signupscreen extends StatelessWidget {
 
                   myButton(onTap: () async {
 
-                   bool isvalue=  await au.SignUp();
-                   if(isvalue==true){
-                   Get.back();
-                   }
+                    if (_formKey.currentState!.validate()) {
+                        bool value= await au.SignUp();
+                       if(value){
+                         Get.back();
+                       }
+
+                    }
+
 
                   }, title: "Sign up"),
                   const SizedBox(height: 10),
