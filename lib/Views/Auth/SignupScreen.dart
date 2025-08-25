@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nayara_energy_app/Controller/authController.dart';
 import 'package:nayara_energy_app/Utils/myButton.dart';
@@ -11,16 +12,12 @@ import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
 import 'package:nayara_energy_app/Views/BottomNavigation_Screens/Mainscreens.dart';
 
 class Signupscreen extends StatelessWidget {
-   Signupscreen({super.key});
+  Signupscreen({super.key});
   AuthController au = Get.find<AuthController>();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Container(
@@ -35,7 +32,6 @@ class Signupscreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-
                   // SizedBox(height: 40,),
                   const DataText(text: 'Sign up', fontSize: 29, color: AppColors.navyblue, fontWeight: FontWeight.w800),
                   const DataText(text: 'Please Fill that detail for login', fontSize: 15),
@@ -50,10 +46,6 @@ class Signupscreen extends StatelessWidget {
                         return 'This field is required';
                       }
                       return null;
-
-
-
-
                     },
                     textEditingController: au.SignupFirstName,
                     hinttext: 'FirstName',
@@ -67,7 +59,6 @@ class Signupscreen extends StatelessWidget {
                         return 'This field is required';
                       }
                       return null;
-
                     },
                     textEditingController: au.SignupLastName,
                     hinttext: 'LastName',
@@ -77,14 +68,12 @@ class Signupscreen extends StatelessWidget {
                     iconn: Icons.email,
                     autofillHints: [AutofillHints.email],
                     validator: (val) {
-
                       if (val!.isEmpty) {
                         return 'This field is required';
                       }
                       if (!GetUtils.isEmail(val)) {
-                        return 'Enter Valid Number';
+                        return 'Enter Valid Email';
                       }
-
 
                       return null;
                     },
@@ -96,6 +85,7 @@ class Signupscreen extends StatelessWidget {
                   myCustomTextfield(
                     iconn: FontAwesomeIcons.phone,
                     autofillHints: [AutofillHints.telephoneNumber],
+
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'This field is required';
@@ -103,7 +93,9 @@ class Signupscreen extends StatelessWidget {
                       if (!GetUtils.isPhoneNumber(val)) {
                         return 'Enter Valid Number';
                       }
-                      if (val.length != 10) {   // optional: only 10-digit numbers
+
+                      if (val.length != 10) {
+                        // optional: only 10-digit numbers
                         return 'Mobile number must be 10 digits';
                       }
 
@@ -111,28 +103,31 @@ class Signupscreen extends StatelessWidget {
                     },
                     textEditingController: au.SignupMobileNumber,
                     hinttext: 'Mobile Number',
-                  ),
-                  const SizedBox(height: 10),
+                    keyboardType: TextInputType.number,
 
+                  ),
+
+                  const SizedBox(height: 10),
 
                   myCustomTextfield(
                     iconn: Icons.lock_outline_rounded,
+                   isObscure:au.obscuresign1 ,
+
                     autofillHints: [AutofillHints.password],
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'This field is required';
                       }
 
-                      if (val.length < 6 || val.length>13) {   // optional: only 10-digit numbers
-                        return  'Password must be 6 to 13 characters';
+                      if (val.length < 6 || val.length>20) {   // optional: only 10-digit numbers
+                        return  'Password must be 6 to 20 characters';
                       }
-
 
                       return null;
-
                     },
-                    textEditingController: au.PasswordController,
+                    textEditingController: au.SignupPassword,
                     hinttext: 'Password',
+                    // inputFormatters: [LengthLimitingTextInputFormatter(10)],
                   ),
                   const SizedBox(height: 10),
                   myCustomTextfield(
@@ -142,18 +137,19 @@ class Signupscreen extends StatelessWidget {
                       if (val!.isEmpty) {
                         return 'This field is required';
                       }
-                      if (val != au.PasswordController.text) {
-                        return 'Passwords do not match';
+                      if (val != au.SignupPassword.text) {
+                        return 'Password Mismatched';
                       }
 
                       if (val.length < 6 || val.length>13) {   // optional: only 10-digit numbers
-                        return  'Password must be 6 to 13 characters';
+                        return  'Password must be 6 to 20 characters';
                       }
 
                       return null;
                     },
                     textEditingController: au.SignupConfirmPassword,
                     hinttext: 'Confirm Password',
+                    // inputFormatters: [LengthLimitingTextInputFormatter(10)],
                   ),
                   const SizedBox(height: 10),
 
@@ -163,30 +159,28 @@ class Signupscreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
 
-                  myButton(onTap: () async {
-
-                    if (_formKey.currentState!.validate()) {
-                        bool value= await au.SignUp();
-                       if(value){
-                         Get.back();
-                       }
-
-                    }
-
-
-                  }, title: "Sign up"),
+                  myButton(
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        try {
+                          await au.SignUp();
+                        } catch (e, s) {
+                          print("api failed");
+                          print(s);
+                        }
+                      }
+                    },
+                    title: "Sign up",
+                  ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DataText(text: "Don't have account?", fontSize: 15),
-                      SizedBox(width: 5,),
+                      SizedBox(width: 5),
                       InkWell(
                         onTap: () {
-
-
-                          Get.to(()=>Loginscreen());
-
+                          Get.to(() => Loginscreen());
                         },
                         child: DataText(text: "Log In", fontSize: 15, color: Colors.grey),
                       ),

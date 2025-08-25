@@ -1,40 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'myColors.dart';
 
 
-class myCustomTextfield extends StatelessWidget {
+class myCustommMoreTextfield extends StatelessWidget {
   final String hinttext;
   final TextEditingController textEditingController;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final IconData? iconn;
   final bool isObscure;
-  final int? maxLength;
   final bool alwaysBoarder;
   final List<String>? autofillHints;
   final  bool readOnly ;
-  final TextInputType? keyboardType;
-  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType; // ✅ nullable keyboardType
 
 
+  myCustommMoreTextfield({super.key,
+    required this.hinttext,
+    required this.textEditingController,
+    this.validator,
+    this.onChanged,
+    this.iconn,
+    this.isObscure = false,
+    this.keyboardType,
+    this.autofillHints,
+    this.alwaysBoarder = false,
+    this.readOnly=false,
 
-   myCustomTextfield({super.key,
-     required this.hinttext,
-     required this.textEditingController,
-     this.validator,
-     this.onChanged,
-     this.iconn,
-     this.isObscure = false,
-     this.keyboardType,
-     this.maxLength,
-     this.autofillHints,
-     this.alwaysBoarder = false,
-     this.readOnly=false,
-     this.inputFormatters,
-
-   });
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +42,18 @@ class myCustomTextfield extends StatelessWidget {
       obscureText: isObscure,
       onChanged: onChanged,
       validator: validator,
-      inputFormatters:  [
-        LengthLimitingTextInputFormatter(maxLength)],
       decoration: InputDecoration(
           errorStyle:  TextStyle(color: myColor.errorcolor),
 
           hintStyle:
-           TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+          TextStyle(color:  AppColors.navyblue, fontWeight: FontWeight.w500),
           hintText: hinttext,
           fillColor: Colors.white,
           filled: true,
           prefixIcon: Icon(
             iconn,
-            color: Colors.grey,
+            color: AppColors.navyblue,
           ),
-
           disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none),

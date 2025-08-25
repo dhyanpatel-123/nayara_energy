@@ -44,6 +44,17 @@ class HomeController extends GetxController {
     }
   }
 
+///////////////////////////
+
+  var items = ["Syamal", "NaviMumbai", "JivrajPark", "Vastral"]; // dropdown options
+  var selectedItem = ""; // selected value (observable)
+
+  void updateSelectedItem(String value) {
+    selectedItem = value;
+    update(); // rebuild GetBuilder
+  }
+
+
 
   /////////////////////////////////////////////////
                    //charts
@@ -70,6 +81,10 @@ class HomeController extends GetxController {
     // You can set initial values here if needed
   }
 }
+
+////////////////////////////////////////
+/////branch
+
 
 class HomeScreenBinding extends Bindings {
   @override

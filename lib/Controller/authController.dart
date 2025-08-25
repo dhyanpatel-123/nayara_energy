@@ -43,7 +43,7 @@ class AuthController extends GetxController {
         print("hello");
 
 
-        MyToast.showCustom("Logged In");
+        MyToast.showCustom("Logged In ");
         await LoginSuccess(jsonData);
 
       } else {
@@ -75,8 +75,9 @@ class AuthController extends GetxController {
   TextEditingController SignupMobileNumber = TextEditingController();
   TextEditingController SignupPassword = TextEditingController();
   TextEditingController SignupConfirmPassword = TextEditingController();
-
- Future<bool>SignUp() async {
+  bool obscuresign1 = true;
+  bool obscuresign2 = true;
+  SignUp() async {
     try {
 
       var response = await http.post(
@@ -92,31 +93,31 @@ class AuthController extends GetxController {
       final jsonData = jsonDecode(response.body);
       print("responsbody:${response.body}");
       if (response.statusCode == 200) {
+        Get.offAll(()=>Loginscreen());
+        MyToast.showCustom("Account Created Successfully");
+        // await SignUpSuccess(jsonData);
 
-        MyToast.showCustom("Sign UP");
-        await SignUpSuccess(jsonData);
-        return true;
       } else {
-        MyToast.showCustom("Sign UP Failed");
-        return false;
+        MyToast.showCustom("Failed to create account");
+
       }
     } catch (e) {
       print(e.toString());
       MyToast.showCustom("Something went Wrong");
-      return false;
+
     } finally {
 
       update();
     }
   }
 
-  SignUpSuccess(jsonData) async {
-
-    await mySharedPref().setData(
-        jsonData['token']);
-    Get.offAll(()=>Loginscreen(),binding:AuthBinding());
-    clearLoginFields();
-  }
+  // SignUpSuccess(jsonData) async {
+  //
+  //   await mySharedPref().setData(
+  //       jsonData['token']);
+  //   Get.back();
+  //   clearLoginFields();
+  // }
 
 
 

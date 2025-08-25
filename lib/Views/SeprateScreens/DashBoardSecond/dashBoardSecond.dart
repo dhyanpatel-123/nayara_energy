@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 import 'package:get/get.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 import 'package:nayara_energy_app/Utils/myBellIcon.dart';
 import 'package:nayara_energy_app/Utils/myColors.dart';
 import 'package:nayara_energy_app/Utils/myCustomAvatar.dart';
 import 'package:nayara_energy_app/Utils/myDropdown.dart';
 import 'package:nayara_energy_app/Utils/mycalender.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
-import 'package:nayara_energy_app/Views/SeprateScreens/DashBoardSecond/dashBoardSecond.dart';
 import 'package:nayara_energy_app/Views/SeprateScreens/stockchartpage/stock_chart.dart';
 
-class HomeScreen extends StatelessWidget {
+class Dashboardsecond extends StatelessWidget {
+   Dashboardsecond({super.key});
   final List<Map<String, String>> data = [
     {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
     {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
@@ -18,7 +18,6 @@ class HomeScreen extends StatelessWidget {
     {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
     {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
   ];
-  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,44 +79,45 @@ class HomeScreen extends StatelessWidget {
               DataText(text: "Tank Vise Stock", fontSize: 15),
               SizedBox(height: 10),
 
-              InkWell(
-                onTap: (){
-                  Get.to(()=>Dashboardsecond());
-                },
-                child: Card(
-                  elevation: 3,
-                  // margin: EdgeInsets.all(16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: DataTable(
-                      headingRowColor:  MaterialStateProperty.all(AppColors.whiteBg),
-                      dataRowColor: MaterialStateProperty.all(AppColors.whiteBg),
-                      columnSpacing: 20, // Add spacing between columns
-                      headingRowHeight: 40, // Adjust header height
-                      dataRowHeight: 40, // Adjust row height
-                      // headingRowColor: MaterialStateProperty.all(Colors.grey[200]),
-                      columns: const [
-                        DataColumn(
-                          label: Text("Tank Name", style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                        DataColumn(
-                          label: Text("Fuel Type", style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                        DataColumn(
-                          label: Text("Quantity", style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                      ],
-                      rows: data.map((row) {
-                        return DataRow(
-                          cells: [
-                            DataCell(Text(row["tank"]!)),
-                            DataCell(Text(row["fuel"]!)),
-                            DataCell(Text(row["quantity"]!)),
-                          ],
-                        );
-                      }).toList(),
-                    ),
+              Card(
+                elevation: 3,
+                // margin: EdgeInsets.all(16),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: DataTable(
+                    headingRowColor:  MaterialStateProperty.all(AppColors.whiteBg),
+                    dataRowColor: MaterialStateProperty.all(AppColors.whiteBg),
+                    columnSpacing: 20, // Add spacing between columns
+                    headingRowHeight: 40, // Adjust header height
+                    dataRowHeight: 40, // Adjust row height
+                    // headingRowColor: MaterialStateProperty.all(Colors.grey[200]),
+                    columns: const [
+                      DataColumn(
+                        label: Text("Tank Name", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      DataColumn(
+                        label: Text("Fuel Type", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      DataColumn(
+                        label: Text("Quantity", style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                    rows: data.map((row) {
+                      return DataRow(
+                        cells: [
+                          DataCell(Column(
+                            children: [
+                              Text(row["tank"]!),
+
+
+                            ],
+                          )),
+                          DataCell(Text(row["fuel"]!)),
+                          DataCell(Text(row["quantity"]!)),
+                        ],
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
@@ -125,6 +125,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    );;
   }
 }
