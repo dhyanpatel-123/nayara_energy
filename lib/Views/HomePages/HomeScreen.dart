@@ -11,13 +11,11 @@ import 'package:nayara_energy_app/Views/SeprateScreens/DashBoardSecond/dashBoard
 import 'package:nayara_energy_app/Views/SeprateScreens/stockchartpage/stock_chart.dart';
 
 class HomeScreen extends StatelessWidget {
-  final List<Map<String, String>> data = [
-    {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-  ];
+
+
+
+
+
   HomeScreen({super.key});
 
   @override
@@ -28,101 +26,151 @@ class HomeScreen extends StatelessWidget {
         padding: EdgeInsets.only(top: 60, left: 20, right: 20),
         width: mySize.width,
         height: mySize.height,
-        child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CustomAvatar(assetPath: "assets/user.jpg"),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DataText(text: "Welcome?", fontSize: 15),
+                    DataText(text: "Ansh", fontSize: 15),
+                  ],
+                ),
+                SizedBox(width: 10),
+                Spacer(),
+                Mybellicon(),
+              ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                GetBuilder<HomeController>(
+                  builder: (at) {
+                    return Mydropdown(
+                      items: at.items,
+                      selectedItem: at.selectedItem,
+                      hint: "selected Branch",
+                      onChanged: (val) {
+                        at.updateSelectedItem(val!);
+                      },
+                    );
+                  },
+                ),
+                Spacer(),
+
+                MyCustomDatePicker(),
+              ],
+            ),
+            SizedBox(height: 20),
+
+            StockChart(),
+
+            SizedBox(height: 20),
+            DataText(text: "Tank Vise Stock", fontSize: 15),
+            SizedBox(height: 20),
+
+        Card(
+          elevation: 3,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+
                 children: [
-                  CustomAvatar(assetPath: "assets/user.jpg"),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DataText(text: "Welcome?", fontSize: 15),
-                      DataText(text: "Ansh", fontSize: 15),
-                    ],
-                  ),
-                  SizedBox(width: 10),
-                  Spacer(),
-                  Mybellicon(),
+                  Text("Tank Name"),
+                  SizedBox(width: 40,),
+                  Text("Fuel Type"),
+                  SizedBox(width: 60,),
+                  Text("Quantity"),
+
                 ],
               ),
-              SizedBox(height: 20),
-              Row(
+              Divider(),
+              GetBuilder<HomeController>(builder: (ad) {
+                return  Container(
+                  height: 270,
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero, // remove default padding
+                    itemCount: ad.data.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
 
-                children: [
-                  GetBuilder<HomeController>(
-                    builder: (at) {
-                      return Mydropdown(
-                        items: at.items,
-                        selectedItem: at.selectedItem,
-                        hint: "selected Branch",
-                        onChanged: (val) {
-                          at.updateSelectedItem(val!);
+                          Container(
+                              color:ad.isChange?Colors.white:Colors.blueAccent,
+                              child: InkWell(
+                                onTap: (){
 
-                        },
+                                  if(ad.Emptydata2.contains(ad.data2[index].toString())){
+
+
+                                    ad.Emptydata2.remove(ad.data2[index].toString());
+                                    ad.update();
+
+                                  }else{
+                                    ad.Emptydata2.add(ad.data2[index].toString());
+                                    ad.update();
+                                  }
+                                  print("value");
+                                  print("${ad.Emptydata2.toString()}");
+
+
+                                  if(ad.data3.isNotEmpty){
+
+                                    ad.isChange=!ad.isChange;
+                                    ad.update();
+                                  }
+
+
+
+
+
+
+                                },
+                                child: Row(
+                                  children: [
+                                    Text(ad.data[index]['tank'].toString()),
+                                    SizedBox(width: 50,),
+                                    Text(ad.data[index]['fuel'].toString()),
+                                    SizedBox(width: 50,),
+                                    Text(ad.data[index]['quantity'].toString()),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.arrow_drop_down),
+                                    ),
+                                  ],
+                                ),
+
+
+
+                              ),
+
+
+
+                            ),
+                          ad.isChange?SizedBox():Container(child: Text(ad.data3[index].toString()),),
+
+
+                          Divider(),
+
+                        ],
                       );
                     },
                   ),
-                  Spacer(),
+                );
+              },)
 
-                  MyCustomDatePicker(),
-                ],
-              ),
-              SizedBox(height: 20),
-              GetBuilder<HomeController>(
-                builder: (sp) {
-                  return StockChart();
-                },
-              ),
-              SizedBox(height: 20),
-              DataText(text: "Tank Vise Stock", fontSize: 15),
-              SizedBox(height: 10),
-
-              InkWell(
-                onTap: (){
-                  Get.to(()=>Dashboardsecond());
-                },
-                child: Card(
-                  elevation: 3,
-                  // margin: EdgeInsets.all(16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: DataTable(
-                      headingRowColor:  MaterialStateProperty.all(AppColors.whiteBg),
-                      dataRowColor: MaterialStateProperty.all(AppColors.whiteBg),
-                      columnSpacing: 20, // Add spacing between columns
-                      headingRowHeight: 40, // Adjust header height
-                      dataRowHeight: 40, // Adjust row height
-                      // headingRowColor: MaterialStateProperty.all(Colors.grey[200]),
-                      columns: const [
-                        DataColumn(
-                          label: Text("Tank Name", style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                        DataColumn(
-                          label: Text("Fuel Type", style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                        DataColumn(
-                          label: Text("Quantity", style: TextStyle(fontWeight: FontWeight.bold)),
-                        ),
-                      ],
-                      rows: data.map((row) {
-                        return DataRow(
-                          cells: [
-                            DataCell(Text(row["tank"]!)),
-                            DataCell(Text(row["fuel"]!)),
-                            DataCell(Text(row["quantity"]!)),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ),
             ],
-          ),
+          ) ,
+        )
+
+
+
+
+          ],
         ),
       ),
     );

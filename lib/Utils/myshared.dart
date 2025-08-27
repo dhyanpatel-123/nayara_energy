@@ -15,6 +15,15 @@ class mySharedPref {
       default:
     }
   }
+
+
+
+
+
+
+
+
+
   ///////////////////////////////////////
 
   clearData() async {

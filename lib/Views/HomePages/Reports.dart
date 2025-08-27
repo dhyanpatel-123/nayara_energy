@@ -25,7 +25,8 @@ class ReportScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
-                Row(children: [MyCustomDateFromTo(), SizedBox(width: 5), MyCustomDatePicker()]),
+                Row(children: [MyCustomDateFromTo(), SizedBox(width: 5)]),
+                MyCustomDatePicker(),
                 ProfitChartPage(),
                 GestureDetector(
                   onTap: (){

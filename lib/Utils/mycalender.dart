@@ -15,13 +15,14 @@ class MyCustomDatePicker extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (da){
         final displayDate = date.selectedDate ?? DateTime.now();
-        final formattedDate = DateFormat('EEE dd').format(displayDate);
+        final formattedDate = DateFormat('EEE dd , yyyy').format(displayDate);
 
         return InkWell(
           onTap: (){
             date.pickDate(context);
           },
           child: Container(
+            height: 40,
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),

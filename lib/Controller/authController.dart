@@ -8,7 +8,6 @@ import 'package:nayara_energy_app/Utils/myToast.dart';
 import 'package:nayara_energy_app/Utils/myshared.dart';
 import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
 import 'package:nayara_energy_app/Views/BottomNavigation_Screens/Mainscreens.dart';
-import 'package:nayara_energy_app/Views/HomePages/HomeScreen.dart';
 import 'package:nayara_energy_app/myApis/Myapis.dart';
 
 class AuthController extends GetxController {
