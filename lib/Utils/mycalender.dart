@@ -5,22 +5,21 @@ import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeControlle
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
 
 class MyCustomDatePicker extends StatelessWidget {
-  final String? title;
+  final Widget TextWidget;
+  final VoidCallback onTap;
   final HomeController date = Get.put(HomeController());
 
-  MyCustomDatePicker({super.key,  this.title});
+  MyCustomDatePicker({super.key,  required this.TextWidget,required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (da){
-        final displayDate = date.selectedDate ?? DateTime.now();
-        final formattedDate = DateFormat('EEE dd , yyyy').format(displayDate);
+        // final displayDate = date.selectedDate ?? DateTime.now();
+        // final formattedDate = DateFormat('EEE dd , yyyy').format(displayDate);
 
         return InkWell(
-          onTap: (){
-            date.pickDate(context);
-          },
+          onTap: onTap,
           child: Container(
             height: 40,
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -33,7 +32,7 @@ class MyCustomDatePicker extends StatelessWidget {
             child: Row(
 
               children: [
-                DataText(text: formattedDate, fontSize: 15),
+                TextWidget,
                 const SizedBox(width: 8),
                 const Icon(Icons.calendar_today, size: 16),
 

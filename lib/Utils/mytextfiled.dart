@@ -58,10 +58,7 @@ class myCustomTextfield extends StatelessWidget {
           hintText: hinttext,
           fillColor: Colors.white,
           filled: true,
-          prefixIcon: Icon(
-            iconn,
-            color: Colors.grey,
-          ),
+
 
           disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

@@ -1,11 +1,14 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nayara_energy_app/Controller/BottomNavigationController.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 
 
 import '../Utils/myImages.dart';
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+   SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

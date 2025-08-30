@@ -10,6 +10,8 @@ import 'package:nayara_energy_app/Views/Auth/LoginScreen.dart';
 import 'package:nayara_energy_app/Views/BottomNavigation_Screens/Mainscreens.dart';
 import 'package:nayara_energy_app/myApis/Myapis.dart';
 
+import 'BottomNavigationController.dart';
+
 class AuthController extends GetxController {
   @override
   void onInit() {
@@ -62,7 +64,7 @@ class AuthController extends GetxController {
 
     await mySharedPref().setData(
         jsonData['token']);
-    Get.offAll(()=>Mainscreens(),binding:HomeScreenBinding());
+    Get.offAll(()=>Mainscreens(),binding:BottomNavBinding());
     clearLoginFields();
   }
 

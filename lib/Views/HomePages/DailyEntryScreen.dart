@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/DailyEntryController.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 import 'package:nayara_energy_app/Utils/myAleartdilalog.dart';
 import 'package:nayara_energy_app/Utils/myButton.dart';
 import 'package:nayara_energy_app/Utils/myColors.dart';
+import 'package:nayara_energy_app/Utils/myDropdown.dart';
 import 'package:nayara_energy_app/Utils/mycalender.dart';
 import 'package:nayara_energy_app/Utils/mycustomappbar.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
@@ -21,77 +24,83 @@ class DailyEntryScreen extends StatelessWidget {
     {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
   ];
   DailyEntryScreen({super.key});
+  TextEditingController AddTextController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // final HomeController date = Get.put(HomeController());
-    TextEditingController DailyEntryController = TextEditingController();
     var mySize = MediaQuery.sizeOf(context);
 
     return Scaffold(
       appBar: MyCustomAppbar(title: "Daily Entry", centerTitle: true),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          width: mySize.width,
-          height: mySize.height,
-          child: SingleChildScrollView(
+      body: GetBuilder<DailyEntryContoller>(
+        builder: (da) {
+          return Container(
+            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+            width: mySize.width,
+            height: mySize.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [MyCustomDatePicker()]),
-                SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true, // makes it measure height based on children
-                  physics: NeverScrollableScrollPhysics(),
+                Flexible(
+                  child: ListView.builder(
+                    itemCount: da.dailylist.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        height: 100,
+                        child: Card(
+                          elevation: 2,
 
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      width: double.infinity,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  DataText(text: 'TankName: ${data[index]['fuel'] ?? ''}', fontSize: 15),
-                                  DataText(text: data[index]['fuel'] ?? '', fontSize: 15),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      showAleartAddDailyEntry(title: "Tank name", controller: DailyEntryController);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.add),
-                                        DataText(text: "Today's Closing Entry", fontSize: 15),
-                                      ],
+                          color: AppColors.whiteBg,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    DataText(
+                                      color: AppColors.navyblue,
+                                      text: 'TankName: ${da.dailylist[index]['fuel_type'].toString()}',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    DataText(text: "(Current Qty.)", fontSize: 15, fontWeight: FontWeight.bold),
+                                  ],
+                                ),
+                                const SizedBox(height: 8), // spacing between rows
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        showAleartAddDailyEntry(title: 'Tank Name-P-Nozzle 1', controller: AddTextController);
+                                      },
+                                      child: DataText(
+                                        text: '${da.dailylist[index]['nozzle_name'].toString()}',
+                                        fontSize: 15,
+                                        color: AppColors.darkGreen,
+                                      ),
+                                    ),
+                                    DataText(
+                                      text: '${da.dailylist[index]['starting_qty'].toString()} Ltr.',
+                                      fontSize: 15,
+                                      color: AppColors.navyblue,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

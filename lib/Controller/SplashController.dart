@@ -1,5 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
+import 'package:nayara_energy_app/Controller/BottomNavigationController.dart';
 import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 import 'package:nayara_energy_app/Controller/authController.dart';
 import 'package:nayara_energy_app/Utils/myshared.dart';
@@ -27,7 +28,7 @@ class SplshContoller extends GetxController{
         );
       }else{
         Get.offAll(()=>Mainscreens(),
-          binding: HomeScreenBinding(),
+          binding: BottomNavBinding(),
             duration: const Duration(milliseconds: 500),
             curve: Curves.linear
 
