@@ -7,5 +7,8 @@ class MyApis {
   static const String dailyentrylist = "${baseUrl}daily_entry_list";
   static const String dailyentryview = "${baseUrl}daily_entry_view";
   static const String dailyentryadd = "${baseUrl}add_daily_entry";
+  static const String dailyentrynozzlelist = "${baseUrl}daily_entry_tank_with_nozzle";
+  static const String setbranchdropdown = "${baseUrl}set_slected_branch";
+  static const String getbranchdropdown = "${baseUrl}get_slected_branch";
 
 }

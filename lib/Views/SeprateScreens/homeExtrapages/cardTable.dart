@@ -64,10 +64,7 @@ class Cardtable extends StatelessWidget {
           Divider(),
 
 
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: 300, // maximum height for the scrollable list
-            ),
+          Flexible(
             child: ListView.builder(
               padding: EdgeInsets.zero,
               itemCount: data.length,

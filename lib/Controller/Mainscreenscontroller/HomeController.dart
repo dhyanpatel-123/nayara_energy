@@ -13,21 +13,36 @@ class HomeController extends GetxController {
     super.onInit();
     isLoading = true;
     initData();
+
   }
 
   RefreshapiData() async {
     await branch();
     await dashboard();
+
   }
 
   initData() async {
      branch();
      dashboard();
+     getBranch();
   }
 
   bool isLoading = false;
 
   DateTime selectedDate = DateTime.now();
+
+
+  int selectedIndex = -1;
+
+  void selectItem(int index) {
+    if (selectedIndex == index) {
+
+    } else {
+      selectedIndex = index; // select new item
+    }
+    update();
+  }
 
    ChangeDatePicker() {
     showDatePicker(context: Get.context!, firstDate: DateTime(1970), lastDate: DateTime.now()).then((value) {
@@ -95,8 +110,9 @@ class HomeController extends GetxController {
 
 
     try {
+      print("idget:${GetselectedBranch}");
       dashBoardDataList.clear();
-      final url = "${MyApis.dashborad}?branch_id=${"1"}";
+      final url = "${MyApis.dashborad}?branch_id=${GetselectedBranch}";
 
       var response = await http.get(Uri.parse(url), headers: {'x-api-key': '$token'});
 
@@ -133,7 +149,7 @@ class HomeController extends GetxController {
 
   var selecteBranch = null;
   var BranchList = [];
-  bool isBranchLoading = false;
+
 
   branch() async {
     var token = await mySharedPref().getData("token");
@@ -150,7 +166,7 @@ class HomeController extends GetxController {
         BranchList.assignAll(jsonData['data']);
 
         if (BranchList.isNotEmpty) {
-          selecteBranch = BranchList[0]['id'].toString();
+          // selecteBranch = BranchList[0]['id'].toString();
         }
       } else {
         BranchList.clear();
@@ -163,7 +179,65 @@ class HomeController extends GetxController {
     }
   }
 
+
+
+
   ///////
+
+  var SetBranchList = [];
+   var SetselectedBranch="";
+
+  setBranch(String id) async {
+    var token = await mySharedPref().getData("token");
+
+    try {
+      final url = "${MyApis.setbranchdropdown}?branch_id=${id}";
+      var response = await http.get(Uri.parse(url), headers: {'x-api-key': '$token'});
+      final jsonData = jsonDecode(response.body);
+     print("SETaPICALLing:${response.body}");
+      if (response.statusCode == 200) {
+        SetselectedBranch = jsonData['branch_id'].toString();
+       print("SetselectedBranch:${SetselectedBranch}");
+      } else {
+        print("API failed");
+      }
+    } catch (e) {
+      print("Something went wrong: $e");
+    } finally {
+      update(); // if using GetBuilder
+    }
+  }
+
+
+
+  var GetBranchList = [];
+  var GetselectedBranch="";
+
+  getBranch() async {
+    var token = await mySharedPref().getData("token");
+
+    try {
+      final url = "${MyApis.getbranchdropdown}";
+      var response = await http.get(Uri.parse(url), headers: {'x-api-key': '$token'});
+      final jsonData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        GetselectedBranch = jsonData['branch_id'].toString();
+        print("GetselectedBranch:${GetselectedBranch}");
+      } else {
+        print("API failed");
+      }
+    } catch (e) {
+      print("Something went wrong: $e");
+    } finally {
+      update(); // if using GetBuilder
+    }
+  }
+
+
+
+
+  /////////////
 
   final List<Map<String, String>> data = [
     {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},

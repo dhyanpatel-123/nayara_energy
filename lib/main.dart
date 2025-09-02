@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 void main() {
   Get.put(SplshContoller());
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -6,7 +6,7 @@ class myDecorations {
   static logoimageScreen(context) {
     return Image.asset(
 
-        LogoImage,
+        splashImage,
         height: 300,
         width: MediaQuery.sizeOf(context).width,
         fit: BoxFit.cover);

@@ -38,7 +38,7 @@ class Dailyentrydetailscreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: MyCustomAppbar(title: "Tank Name-Petrol", centerTitle: true),
+        appBar: MyCustomAppbar(title: "Tank Name-Petrol", centerTitle: true,wantBackButton: true,wantIcon: false,wantcircleAvatar: true,),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(

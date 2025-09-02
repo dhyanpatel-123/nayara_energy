@@ -35,7 +35,7 @@ class Profile extends StatelessWidget {
               
               ElevatedButton(onPressed: () {
                 Get.to(()=>Morescreen());
-                
+
               }, child: Text("more")),
               ElevatedButton(onPressed: () async {
                 await mySharedPref().clearData();

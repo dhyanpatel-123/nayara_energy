@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:nayara_energy_app/Utils/myshared.dart';
 import 'package:nayara_energy_app/main.dart';
@@ -13,8 +14,14 @@ class DailyEntryContoller extends GetxController {
     super.onInit();
     isLoading = true;
     dailyEntryList();
-    dailyEntryViewList();
+    dailyEntryNozzle();
   }
+
+
+  TextEditingController StartQtyEditingController= TextEditingController();
+  TextEditingController TestQtyEditingController=TextEditingController();
+  TextEditingController UsageQtyEditingController=TextEditingController();
+
 
   bool isLoading = false;
 
@@ -47,12 +54,13 @@ class DailyEntryContoller extends GetxController {
   }
 
   var dailyEntryViewlist = [];
-  dailyEntryViewList() async {
+  dailyEntryViewList(String id) async {
     try {
       dailylist.clear();
       var token = await mySharedPref().getData("token");
+      print("${token}");
 
-      final url = "${MyApis.dailyentryview}?branch_id=${'1'}&id=${'1'}";
+      final url = "${MyApis.dailyentryview}?branch_id=${'1'}&id=${id}";
 
 
       var response = await http.get(Uri.parse(url),headers: {
@@ -119,6 +127,43 @@ class DailyEntryContoller extends GetxController {
       update();
     }
   }
+  var dailyEntryNozzlelist = [];
+
+
+  dailyEntryNozzle() async {
+    try {
+      dailyEntryNozzlelist.clear();
+      var token = await mySharedPref().getData("token");
+
+      final url = "${MyApis.dailyentrynozzlelist}?branch_id=${'1'}";
+
+
+      var response = await http.get(Uri.parse(url),headers: {
+        'x-api-key': '$token',
+      });
+      final jsonData = jsonDecode(response.body);
+      print('datassssss1233232333:${response.body}');
+
+
+
+      if (response.statusCode == 200) {
+        dailyEntryNozzlelist.assignAll(jsonData['data']);
+
+        
+
+      } else {
+        dailyEntryNozzlelist.clear();
+        print("Api Failed");
+      }
+    } catch (e) {
+      dailyEntryNozzlelist.clear();
+      print("Somthing went Wrong");
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
 
 
 

@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
 import 'package:get/get.dart';
-import 'package:nayara_energy_app/SplashScreen/splashscreen.dart';
-import 'package:nayara_energy_app/Utils/myBellIcon.dart';
-import 'package:nayara_energy_app/Utils/myBranchIcon.dart';
-import 'package:nayara_energy_app/Utils/myCustomAvatar.dart';
 import 'package:nayara_energy_app/Utils/myLoadingWidget.dart';
 import 'package:nayara_energy_app/Utils/mycalender.dart';
+import 'package:nayara_energy_app/Utils/mycustomappbar.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
 import 'package:nayara_energy_app/Views/SeprateScreens/homeExtrapages/cardTable.dart';
 import 'package:nayara_energy_app/Views/SeprateScreens/homeExtrapages/stockchartpage/stock_chart.dart';
-import 'package:nayara_energy_app/main.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,6 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
+      appBar: MyCustomAppbar(title:"Home",wantcircleAvatar: false,wantIcon: false,centerTitle: false),
       body: GetBuilder<HomeController>(builder: (at) {
 
         print("foundData:${at.dashBoardDataList}");
@@ -39,35 +36,12 @@ class HomeScreen extends StatelessWidget {
 
         }else{
           return Container(
-            padding: EdgeInsets.only(top: 60, left: 15, right: 15),
+            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
             width: mySize.width,
             height: mySize.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-
-                Row(
-                  children: [
-                    CustomAvatar(assetPath: "assets/user.jpg"),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DataText(text: "Welcome?", fontSize: 15),
-                        DataText(text: "Ansh", fontSize: 15),
-                      ],
-                    ),
-                    SizedBox(width: 10),
-                    Spacer(),
-                    Mybellicon(),
-                    myBranchIcon(onTap: (){
-
-
-                    }, ImagePath: "assets/Blogo.png")
-                  ],
-                ),
-                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
