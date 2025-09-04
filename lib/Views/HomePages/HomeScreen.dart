@@ -16,10 +16,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var mySize = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: MyCustomAppbar(title:"Home",wantcircleAvatar: false,wantIcon: false,centerTitle: false),
+      appBar: MyCustomAppbar(title:"Home",wantBackButton: false,wantIcon: true,),
       body: GetBuilder<HomeController>(builder: (at) {
 
-        print("foundData:${at.dashBoardDataList}");
+
 
 
         if(at.isLoading){
@@ -36,10 +36,11 @@ class HomeScreen extends StatelessWidget {
 
         }else{
           return Container(
-            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             width: mySize.width,
             height: mySize.height,
             child: Column(
+              spacing: 5,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -47,24 +48,22 @@ class HomeScreen extends StatelessWidget {
                   children: [
 
 
-                    GetBuilder<HomeController>(builder: (at) {
-                      return  MyCustomDatePicker(onTap:(){
-                        at.ChangeDatePicker();
-                        at.dashboard();
+                MyCustomDatePicker(onTap:(){
+              at.ChangeDatePicker();
+              at.dashboard();
 
 
-                      } ,TextWidget: DataText(text:DateFormat('EEE dd ,yyyy').format(at.selectedDate), fontSize: 15),);
-                    },)
+          } ,TextWidget: DataText(text:DateFormat('EEE dd ,yyyy').format(at.selectedDate), fontSize: 15),),
 
                   ],
                 ),
-                SizedBox(height: 20),
+
                 StockChart(),
-                SizedBox(height: 20),
-                DataText(text: "Tank Vise Stock", fontSize: 20, fontWeight: FontWeight.bold),
-                SizedBox(height: 10),
-                Flexible(child: Cardtable()),
-                SizedBox(height: 20),
+
+                DataText(text: "Tank Vise Stock", fontSize: 17),
+
+                Cardtable(),
+
               ],
             ),
           );

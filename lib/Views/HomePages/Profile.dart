@@ -7,8 +7,9 @@ import 'package:nayara_energy_app/Utils/mytextfiled.dart';
 import 'package:nayara_energy_app/Views/HomePages/morescreen.dart';
 
 class Profile extends StatelessWidget {
-  Profile({super.key});
+  Profile({super.key,required this.wantBackButton});
   TextEditingController NameEditingController = TextEditingController();
+  final bool wantBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,8 @@ class Profile extends StatelessWidget {
               }, child: Text("more")),
               ElevatedButton(onPressed: () async {
                 await mySharedPref().clearData();
+
+
 
 
               }, child: Text("removeToken"))

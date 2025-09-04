@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/RefillController.dart';
 import 'package:nayara_energy_app/Utils/myAleartdilalog.dart';
 import 'package:nayara_energy_app/Utils/myButton.dart';
 import 'package:nayara_energy_app/Utils/myColors.dart';
@@ -10,132 +13,90 @@ import 'package:nayara_energy_app/Utils/mytextfiled.dart';
 import 'package:nayara_energy_app/Views/SeprateScreens/DataEntryDetailScreen.dart';
 
 class RefillScreen extends StatelessWidget {
-  final List<Map<String, String>> data = [
-    {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Petrol", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-    {"tank": "Tank Name", "fuel": "Diesel", "quantity": "8756.20 ltr"},
-  ];
   RefillScreen({super.key});
+
+  TextEditingController Refill = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController RefillController = TextEditingController();
     var mySize = MediaQuery.sizeOf(context);
 
     return Scaffold(
-      appBar: MyCustomAppbar(title: "Refill Tanks", centerTitle: true),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          width: mySize.width,
-          height: mySize.height,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      appBar: MyCustomAppbar(title: "Refill Tanks", centerTitle: true, wantIcon: true),
+      body: GetBuilder<RefillController>(
+        builder: (ro) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            width: mySize.width,
+            height: mySize.height,
+            child: SingleChildScrollView(
+              child: Column(
+                spacing: 5,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
 
-                  // MyCustomDatePicker()
+                    ],
+                  ),
 
-                ]),
-                SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true, // makes it measure height based on children
-                  physics: NeverScrollableScrollPhysics(),
+                  ListView.builder(
+                    shrinkWrap: true, // makes it measure height based on children
+                    physics: NeverScrollableScrollPhysics(),
 
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      width: double.infinity,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  DataText(text: 'TankName: ${data[index]['fuel'] ?? ''}', fontSize: 15),
-                                  DataText(text: data[index]['fuel'] ?? '', fontSize: 15),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    barrierDismissible: true,
-                                    context: Get.context!,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: AppColors.whiteBg,
-                                        // Native Android dialog
-                                        title: DataText(text: "Tank name - ${data[index]['fuel'] ?? ''}", fontSize: 15),
-                                        content: myCustomTextfield(
-                                          hinttext: "Please Add Start Qty here",
-                                          textEditingController: RefillController,
-                                        ),
-                                        actions: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              mySmallButton(
-                                                inverted: true,
-                                                title: "Cancel",
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                              ),
-                                              mySmallButton(
-                                                title: "Submit",
-                                                onTap: () {
-                                                  Get.to(Dailyentrydetailscreen());
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                    itemCount: ro.dailyEntryRefilllist.length,
+                    itemBuilder: (context, index) {
+                      var aa = ro.dailyEntryRefilllist[index];
+                      return SizedBox(
+                        width: double.infinity,
+                        child: Card(
+                          color: AppColors.whiteBg,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            child: Column(
+                              spacing: 10,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    DataText(text: 'TankName: ${aa['tank_name'] ?? ''}', fontSize: 15),
+                                    DataText(text: '(Tank Capacity)', fontSize: 15, color: AppColors.darkGreen),
+
+                                  ],
+                                ),
+                                GestureDetector(
+                                  onTap: () {},
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          showAleartAddRefillTanks(title: "Tank Name", controller: RefillController);
+                                          showAleartAddRefillTanks(title: "Tank Name - Petrol", controller: Refill);
                                         },
                                         child: Row(
+                                          spacing: 4,
                                           children: [
-                                            Icon(Icons.add),
-                                            DataText(text: "Today's Closing Entry", fontSize: 15),
+                                            Icon(Icons.add, color: AppColors.navyblue),
+                                            DataText(text: "Add Refill Quantity", fontSize: 13),
                                           ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

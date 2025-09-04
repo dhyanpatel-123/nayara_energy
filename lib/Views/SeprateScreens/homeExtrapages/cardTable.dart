@@ -9,142 +9,137 @@ class Cardtable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GetBuilder<HomeController>(builder: (ad) {
-        var data=ad.dashBoardDataList['data'];
-        return Card(
-          margin: EdgeInsets.zero,
-          color: AppColors.whiteBg,
-          elevation: 3,
-          child: RefreshIndicator.adaptive(
-            onRefresh: () async {
-              await ad.dashboard();
-            },
-            child: Column(
+    return GetBuilder<HomeController>(
+      builder: (ad) {
+        var data = ad.dashBoardDataList['data'];
+        return Flexible(
+          child: Card(
+            margin: EdgeInsets.zero,
+            color: AppColors.whiteBg,
+            elevation: 3,
+            child: RefreshIndicator.adaptive(
+              onRefresh: () async {
+                await ad.dashboard();
+              },
+              child: Column(
                 children: [
-            // Header row
-            Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: DataText(
-                    text: "Tank Name",
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                // Expanded(
-                //   flex: 2,
-                //   child: DataText(
-                //     text: "Fuel Type",
-                //     fontSize: 15,
-                //     color: Colors.black,
-                //     fontWeight: FontWeight.w700,
-                //   ),
-                // ),
-                SizedBox(width: 10),
-                Expanded(
-                  flex: 2,
-                  child: Center(
-                    child: DataText(
-                      text: "Quantity",
-                      fontSize: 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                // Expanded(flex: 1, child: SizedBox()), // space for expand button
-              ],
-            ),
-          ),
-          Divider(),
-
-
-          Flexible(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                bool isExpanded = ad.expandedIndex == index;
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        color: AppColors.whiteBg,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: DataText(
-                                  text: data[index]['tank_name'].toString(),
-                                  fontSize: 15,
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(width: 10),
-
-                              DataText(
-                                text: data[index]['current_level'].toString(),
-                                fontSize: 15,
-                                color: AppColors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              IconButton(
-
-                                onPressed: () {
-                                  if (ad.expandedIndex == index) {
-                                    ad.expandedIndex = -1;
-                                  } else {
-                                    ad.expandedIndex = index;
-                                  }
-                                  ad.update();
-                                },
-                                icon: Icon(Icons.keyboard_arrow_down),
-                              ),
-                            ],
+                  // Header row
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: DataText(
+                            text: "Tank Name",
+                            fontSize: 15,
+                            color: Colors.black,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: DataText(
-                          text: data[index]['fuel_type'].toString(),
-                          fontSize: 15,
-                          color: AppColors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                        // Expanded(
+                        //   flex: 2,
+                        //   child: DataText(
+                        //     text: "Fuel Type",
+                        //     fontSize: 15,
+                        //     color: Colors.black,
+                        //     fontWeight: FontWeight.w700,
+                        //   ),
+                        // ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          flex: 2,
+                          child: Center(
+                            child: DataText(
+                              text: "Quantity",
+                              fontSize: 15,
+                              color: Colors.black,
 
-                      if (isExpanded)
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.all(8),
-                          child: Text(ad.data3[index].toString()),
+                            ),
+                          ),
                         ),
-
-                      Divider(),
-                    ],
+                        // Expanded(flex: 1, child: SizedBox()), // space for expand button
+                      ],
+                    ),
                   ),
-                );
-              },
+                  Divider(),
+
+                  Flexible(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        bool isExpanded = ad.expandedIndex == index;
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                color: AppColors.whiteBg,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: DataText(
+                                          text: data[index]['tank_name'].toString(),
+                                          fontSize: 14,
+                                          color: AppColors.black,
+
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+
+                                      DataText(
+                                        text: data[index]['current_level'].toString(),
+                                        fontSize: 14,
+                                        color: AppColors.black,
+
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          if (ad.expandedIndex == index) {
+                                            ad.expandedIndex = -1;
+                                          } else {
+                                            ad.expandedIndex = index;
+                                          }
+                                          ad.update();
+                                        },
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: DataText(
+                                  text: data[index]['fuel_type'].toString(),
+                                  fontSize: 14,
+                                  color: AppColors.black,
+
+                                ),
+                              ),
+
+                              if (isExpanded)
+                                Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(ad.data3[index].toString()),
+                                ),
+
+                              Divider(),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-
-          ],
-        ),
-        ),
         );
-
-      },)
-
-
+      },
     );
   }
 }

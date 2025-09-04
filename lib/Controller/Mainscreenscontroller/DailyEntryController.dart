@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:nayara_energy_app/Utils/myToast.dart';
 import 'package:nayara_energy_app/Utils/myshared.dart';
 import 'package:nayara_energy_app/main.dart';
 import 'package:nayara_energy_app/myApis/Myapis.dart';
@@ -15,12 +18,31 @@ class DailyEntryContoller extends GetxController {
     isLoading = true;
     dailyEntryList();
     dailyEntryNozzle();
+
   }
 
 
-  TextEditingController StartQtyEditingController= TextEditingController();
+
+
+
+  DateTime selectedDate = DateTime.now();
+  ChangeDatePicker() {
+    showDatePicker(context: Get.context!, firstDate: DateTime(1970), lastDate: DateTime.now()).then((value) {
+      if (value != null) {
+        selectedDate = value;
+        print("SelectedDate:${selectedDate}");
+
+        update();
+
+      }
+    });
+  }
+
+
   TextEditingController TestQtyEditingController=TextEditingController();
-  TextEditingController UsageQtyEditingController=TextEditingController();
+  TextEditingController StartingQtyEditingController= TextEditingController();
+  TextEditingController EndQtyEditingController=TextEditingController();
+  TextEditingController FinalQtyEditingController=TextEditingController();
 
 
   bool isLoading = false;
@@ -60,7 +82,7 @@ class DailyEntryContoller extends GetxController {
       var token = await mySharedPref().getData("token");
       print("${token}");
 
-      final url = "${MyApis.dailyentryview}?branch_id=${'1'}&id=${id}";
+      final url = "${MyApis.dailyentryview}?branch_id=${'2'}&id=${id}";
 
 
       var response = await http.get(Uri.parse(url),headers: {
@@ -83,50 +105,71 @@ class DailyEntryContoller extends GetxController {
     }
   }
 
+var  value=1;
+
+
 
   var dailyEntryAddlist = [];
-  dailyEntryAddList(String id) async {
+
+  dailyEntryAddList() async {
     try {
       dailyEntryAddlist.clear();
-      var token = await mySharedPref().getData("token");
 
+      var token = await mySharedPref().getData("token");
       final url = "${MyApis.dailyentryadd}";
 
-      var response = await http.post(Uri.parse(url),headers: {
-        'x-api-key': '$token',
-      },
-        body: {
-        'id':'id',
-          'branch_id':"1",
-          'fuel_type':'1',
-           'tank_id':'3',
-          'nozzle_id':'8',
-          'entry_date':'30-08-2025',
-          'test_qty':'15',
-          'starting_qty':'2000',
-          'end_qty':"2000",
-          'final_used_qty':'15',
+      // Prepare request body
+      var bodyData = {
+        'id': dailyEntryViewlist[0]['id'].toString(),
+        'branch_id': "1",
+        'fuel_type': dailyEntryViewlist[0]['fuel_type'].toString(),
+        'tank_id': dailyEntryViewlist[0]['tank_id'].toString(),
+        'nozzle_id': dailyEntryViewlist[0]['nozzle_id'].toString(),
+        'entry_date': DateFormat('dd-MM-yyyy').format(selectedDate),
+        'test_qty': TestQtyEditingController.text,
+        'starting_qty': StartingQtyEditingController.text,
+        'end_qty': EndQtyEditingController.text,
+        'final_used_qty': FinalQtyEditingController.text,
+      };
 
+      print("🔹 API URL: $url");
+      print("🔹 Token: $token");
+      print("🔹 Request Body: $bodyData");
+
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'x-api-key': token,
         },
-
-
+        body: bodyData,
       );
+
+      print("🔹 Status Code: ${response.statusCode}");
+      print("🔹 Response Body: ${response.body}");
+
       final jsonData = jsonDecode(response.body);
-      print('datassssss1233:${response.body}');
+
       if (response.statusCode == 200) {
         // dailyEntryAddlist.assignAll(jsonData['data']);
+        MyToast.showCustom("DailyEntry Data Added Successfully");
+        print("✅ API Success: $jsonData");
       } else {
         dailyEntryAddlist.clear();
-        print("Api Failed");
+        print("❌ API Failed with status: ${response.statusCode}");
+        MyToast.showCustom(" Data Added Failed");
       }
     } catch (e) {
       dailyEntryAddlist.clear();
-      print("Somthing went Wrong");
+      print("⚠️ Exception: $e");
+      MyToast.showCustom("Something went Wrong");
     } finally {
       isLoading = false;
       update();
     }
   }
+
+
+
   var dailyEntryNozzlelist = [];
 
 

@@ -7,6 +7,7 @@ import 'package:nayara_energy_app/Utils/myColors.dart';
 import 'package:nayara_energy_app/Utils/myCustomAvatar.dart';
 import 'package:nayara_energy_app/Utils/myDropdown.dart';
 import 'package:nayara_energy_app/Utils/mytextWidget.dart';
+import 'package:nayara_energy_app/Views/HomePages/Profile.dart';
 
 class MyCustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -19,7 +20,7 @@ class MyCustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const MyCustomAppbar({
     super.key,
     required this.title,
-    this.backgroundColor = AppColors.navyblue,
+    this.backgroundColor = AppColors.whiteBg,
     this.centerTitle = true,
     this.wantBackButton = false,
     this.wantIcon = false,
@@ -29,75 +30,102 @@ class MyCustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 100, // give enough height
+      surfaceTintColor: Colors.white,
       backgroundColor: backgroundColor,
       automaticallyImplyLeading: false,
+
+      // if wantBackButton true → show back button
       leading: wantBackButton
           ? IconButton(
         onPressed: () => Get.back(),
         icon: Icon(Icons.arrow_circle_left_outlined,
-            color: AppColors.whiteBg, size: 30),
+            color: AppColors.navyblue, size: 30),
       )
           : null,
+
+      // notification icon
       actions: [
         if (wantIcon)
-          IconButton(
-            onPressed: () {},
-            icon: Icon(FontAwesomeIcons.solidBell,
-                size: 20, color: AppColors.whiteBg),
+          Padding(
+            padding: EdgeInsets.only(top: 10,right: 20),
+            child:  GestureDetector(
+              onTap: (){},
+              child: Icon(FontAwesomeIcons.solidBell,
+                  size: 20, color: AppColors.navyblue),
+            ),
           ),
       ],
 
+      // if back button is there → show normal title
+      // else show avatar + user details
+      title: wantBackButton
+          ? Text(
+        title,
+        style: TextStyle(
+          color: AppColors.navyblue,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      )
+          : null,
 
-      flexibleSpace: Padding(
-        padding: const EdgeInsets.only(left: 20,top: 30, right: 16), // adjust
+      centerTitle: wantBackButton ? centerTitle : false,
+
+      flexibleSpace: !wantBackButton
+          ? Padding(
+        padding: const EdgeInsets.only(left: 20, top: 30, right: 30),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomAvatar(assetPath: "assets/user.jpg"),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DataText(
-                  text: "Hello, user",
-                  fontSize: 18,
-                  color: AppColors.whiteBg,
-                ),
-                Row(
-                  children: [
-                    DataText(
-                      text: "Name",
-                      fontSize: 18,
-                      color: AppColors.whiteBg,
-                    ),
-                    SizedBox(width: 10,),
-                    GestureDetector(
-                      onTap: (){
-                        showBranchAlertDialog();
-                      },
-                      child: DataText(
-                        text: "(Change)",
-                        fontSize: 18,
-                        color: AppColors.whiteBg,
+            GestureDetector(
+              onTap: (){
+                Get.to(()=>Profile(wantBackButton: false));
+              },
+                child: CustomAvatar(assetPath: "assets/user.jpg")),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DataText(
+                    text: "Hello, user",
+                    fontSize: 17,
+                    color: AppColors.navyblue,
+                  ),
+                  Row(
+                    children: [
+                      DataText(
+                        text: "Syamal",
+                        fontSize: 13,
+                        color: Colors.black54,
                       ),
-                    ),
-                  ],
-                ),
-
-
-              ],
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () {
+                          showBranchAlertDialog();
+                        },
+                        child: DataText(
+                          text: "(Change)",
+                          fontSize: 12,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-      ),
+      )
+          : null,
     );
-
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(
-    AppBar().preferredSize.height * 1.8, // for taller appbar
-  );
+  Size get preferredSize =>
+      Size.fromHeight(AppBar().preferredSize.height * 1.2);
 }

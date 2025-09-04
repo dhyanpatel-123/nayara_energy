@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:nayara_energy_app/Controller/Mainscreenscontroller/DailyEntryController.dart';
 import 'package:nayara_energy_app/Controller/Mainscreenscontroller/HomeController.dart';
+import 'package:nayara_energy_app/Controller/Mainscreenscontroller/RefillController.dart';
 
 class BottomNavController extends GetxController {
   int currentIndex = 0;
@@ -21,5 +22,6 @@ class BottomNavBinding extends Bindings{
     Get.lazyPut(()=>BottomNavController(),fenix: true);
     Get.lazyPut(()=>HomeController(),fenix: true);
     Get.lazyPut(()=>DailyEntryContoller(),fenix: true);
+    Get.lazyPut(()=>RefillController(),fenix: true);
   }
 }

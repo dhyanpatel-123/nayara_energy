@@ -25,7 +25,8 @@ class HomeController extends GetxController {
   initData() async {
      branch();
      dashboard();
-     getBranch();
+
+
   }
 
   bool isLoading = false;
@@ -33,21 +34,14 @@ class HomeController extends GetxController {
   DateTime selectedDate = DateTime.now();
 
 
-  int selectedIndex = -1;
 
-  void selectItem(int index) {
-    if (selectedIndex == index) {
+ int selectedIndex=-1;
 
-    } else {
-      selectedIndex = index; // select new item
-    }
-    update();
-  }
-
-   ChangeDatePicker() {
+  ChangeDatePicker() {
     showDatePicker(context: Get.context!, firstDate: DateTime(1970), lastDate: DateTime.now()).then((value) {
       if (value != null) {
         selectedDate = value;
+        print("SelectedDate:${selectedDate}");
 
         update();
 
@@ -105,14 +99,11 @@ class HomeController extends GetxController {
 
   dashboard() async {
     var token = await mySharedPref().getData("token");
-
-
-
-
     try {
       print("idget:${GetselectedBranch}");
       dashBoardDataList.clear();
       final url = "${MyApis.dashborad}?branch_id=${GetselectedBranch}";
+      print("dashBoradDataApiUrl:${url}");
 
       var response = await http.get(Uri.parse(url), headers: {'x-api-key': '$token'});
 
@@ -184,7 +175,7 @@ class HomeController extends GetxController {
 
   ///////
 
-  var SetBranchList = [];
+
    var SetselectedBranch="";
 
   setBranch(String id) async {
@@ -194,9 +185,12 @@ class HomeController extends GetxController {
       final url = "${MyApis.setbranchdropdown}?branch_id=${id}";
       var response = await http.get(Uri.parse(url), headers: {'x-api-key': '$token'});
       final jsonData = jsonDecode(response.body);
+      print("jsondataaaaa:${jsonData}");
      print("SETaPICALLing:${response.body}");
       if (response.statusCode == 200) {
-        SetselectedBranch = jsonData['branch_id'].toString();
+        SetselectedBranch = jsonData['set_mobile_branch'].toString();
+        await getBranch();
+        await dashboard();
        print("SetselectedBranch:${SetselectedBranch}");
       } else {
         print("API failed");
@@ -210,7 +204,7 @@ class HomeController extends GetxController {
 
 
 
-  var GetBranchList = [];
+
   var GetselectedBranch="";
 
   getBranch() async {

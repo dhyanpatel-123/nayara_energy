@@ -16,7 +16,7 @@ class StockChart extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (da) {
         var total=da.dashBoardDataList['total_level'];
-        return Container(padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+        return Container(padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(color: AppColors.navyblue, borderRadius: BorderRadius.circular(12)),
             child: Row(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,7 +89,7 @@ Widget _buildLegendItem({required Color color, required String text}) {
         decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
       SizedBox(width: 6),
-      Text(text, style: TextStyle(color: Colors.white)),
+      Text(text, style:TextStyle(fontSize: 15,color: Colors.white) ),
     ],
   );
 }
